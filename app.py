@@ -15,7 +15,7 @@ from flask import Response
 from flask import redirect
 
 from const import admin_meta
-from lib.config import Config
+from utils.config import Config
 
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),

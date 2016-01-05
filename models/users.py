@@ -17,7 +17,7 @@ from mongoengine import StringField
 from mongoengine import BooleanField
 from mongoengine import DateTimeField
 
-from lib.hasher import check_password, make_password
+from utils.hasher import check_password, make_password
 
 
 class User(Document):
