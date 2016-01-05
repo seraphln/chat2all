@@ -10,12 +10,12 @@ Simple wrapper for qq oauth2(http://opensns.qq.com/)
 author: seraphwlq@gmail.com
 """
 
-from sso.utils.const import QQ_DOMAIN
-from sso.utils.errors import QQAPIError
-from sso.utils.errors import SSOBaseException
-from sso.utils.http import SDataDict
-from sso.utils.http import encode_params
-from sso.utils.http import request
+from utils.const import QQ_DOMAIN
+from utils.errors import QQAPIError
+from utils.errors import SSOBaseException
+from utils.http import SDataDict
+from utils.http import encode_params
+from utils.http import request
 
 import time
 import urlparse

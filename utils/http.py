@@ -12,8 +12,8 @@ import time
 import urllib
 import requests
 
-from sso.utils.const import COMMON_ARGS
-from sso.utils.const import guess_content_type
+from utils.const import COMMON_ARGS
+from utils.const import guess_content_type
 
 
 class SDataDict(dict):

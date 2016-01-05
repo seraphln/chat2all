@@ -4,10 +4,8 @@
 
 
 """
-constant variables for sso
+constant variables for chat2all
 """
-
-from sso.utils.enum import Enum
 
 
 QQ_DOMAIN = 'graph.qq.com'
@@ -20,11 +18,9 @@ CONTENT_TYPES = {'.png': 'image/png',
                  '.jpe': 'image/jpeg'}
 
 
-HTTP_ENUM = Enum(HTTP_GET=0,
-                 HTTP_POST=1,
-                 HTTP_UPLOAD=2)
-
 COMMON_ARGS = ('access_token', 'oauth_consumer_key', 'openid', 'format')
+
+API_METHODS = ('POST', 'PATCH', 'PUT', 'GET', 'DELETE', 'PUT')
 
 def guess_content_type(ext):
     """
