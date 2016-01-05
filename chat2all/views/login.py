@@ -12,6 +12,7 @@ inlucded:
 """
 
 from app import app
+from app import request
 
 from models.users import User
 from models.users import UserProfile
@@ -37,18 +38,22 @@ def qq_login():
     access_token = api.request_access_token(code)
     api.set_access_token(access_token['access_token'],
                          access_token['expires_in'])
-    user = api.get.user__get_user_info()
+    user_info = api.get.user__get_user_info()
+    openid = api.get_openid()
 
-    query_dct = {'third_type': 'qq', 'info__figureurl': user.get('figureurl')}
-    up = UserProfile.objects.filter(third_info__third_type='qq',
-                                    third_info__info__figureurl=user.get('figureurl')).first()
-    if up:
-        up.third_info = {'third_type': 'qq', 'info': user}
-        up.save()
-    else:
-        pass
+    user = User.objects.filter(third_info__third_type='qq',
+                             third_info__openid=openid).first()
+    if not user:
+        user = User()
 
-    # do save user
+    user.nick_name = user_info.get('nickname', '')
+    user.gender = user_info.get('gender', '')
+    user.avatar = user_info.get('figureurl_qq_2', '')
+    user.third_info = {'third_type': 'qq', 'info': user_info, 'openid': openid}
+    user.save()
+
+    set_login_cookie(request, user)
+    # set user cookie
 
 
 @app.route('/weibo_redirect/', methods=['POST', 'GET'])

@@ -33,6 +33,11 @@ class User(Document):
     }
 
     email = EmailField(unique=True)
+    sex = StringField()
+    desc = StringField()
+    avatar = StringField()
+    third_info = DictField()
+    nick_name = StringField(unique=True)
     username = StringField(unique=True)
     password = StringField()
     create_on = DateTimeField()
@@ -86,13 +91,3 @@ class User(Document):
         user.save()
         return user
 
-
-class UserProfile(Document):
-    """
-    User Profile Info
-    """
-    nick_name = StringField()
-    sex = StringField()
-    desc = StringField()
-    avatar = StringField()
-    third_info = DictField()
