@@ -28,3 +28,4 @@ app.config['admin_meta'] = admin_meta
 app.secret_key = 'PS#yio`%_!((f_or(%)))s'
 
 config = Config()
+
