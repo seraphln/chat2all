@@ -31,7 +31,6 @@ class PermissionFilters(BaseFilters):
 class ParamsFilters(BaseFilters):
     ''' 参数相关的过滤器，会检查参数是否合法并格式化参数 '''
     def process_request(self, request):
-        parse_params(request)   # 首先，处理请求参数
         return True
 
 

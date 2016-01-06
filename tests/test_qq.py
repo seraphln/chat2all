@@ -19,5 +19,4 @@ print 'Open this url in your browser: %s' % api.get_authorization_url("authorize
 code = raw_input('Enter code parameter in your callback url args: ').strip()
 access_token = api.request_access_token(code)
 api.set_access_token(access_token['access_token'], access_token['expires_in'])
-import ipdb;ipdb.set_trace()
 print api.get.user__get_user_info()
