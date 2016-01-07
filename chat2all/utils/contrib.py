@@ -8,7 +8,6 @@
 """
 
 import json
-from flask import Response
 
 
 def make_success_response(result):

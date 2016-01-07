@@ -14,4 +14,4 @@ class IndexHandler(tornado.web.RequestHandler):
                           config.get('qq_appkey'),
                           redirect_uri=config.get('qq_callback_url'))
         auth_url = api.get_authorization_url("authorize")
-        self.render('templates/index.html', auth_url=auth_url)
+        self.render('index.html', auth_url=auth_url)

@@ -13,6 +13,9 @@
 """
 
 import os
+from os.path import join
+from os.path import dirname
+
 import tornado.web
 import tornado.ioloop
 
@@ -29,8 +32,10 @@ logger = getLogger("chat2all.engine")
 
 def make_app():
     """ make an app instance to start the server """
-    settings = {'static_path': os.path.join(os.path.dirname(__file__),
-                'templates')}
+    settings = {'static_path': join(dirname(__file__), 'static'),
+                'template_path': join(dirname(__file__), 'templates'),
+                'gzip': True,
+                'debug': True}
 
     app = tornado.web.Application([(r"/qq_redirect/", QQLoginHandler),
                                    (r"/", IndexHandler)],
