@@ -23,6 +23,8 @@ from utils.const import API_METHODS
 from utils.contrib import make_s_response
 from utils.contrib import make_error_response
 
+from views.login import *
+
 
 @app.route('/api/<path:path>', methods=API_METHODS)
 def backend(path):

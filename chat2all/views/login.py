@@ -15,7 +15,6 @@ from app import app
 from app import request
 
 from models.users import User
-from models.users import UserProfile
 
 from sso.qq.api import APIClient as QQAPIClient
 
