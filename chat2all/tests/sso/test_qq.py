@@ -11,7 +11,8 @@ from sso.qq.api import APIClient
 # Set your values here
 APP_ID = '101284802'
 APP_KEY = '2bc6db4840f7708c860a026efd91fc41'
-CALLBACK_URL = 'http://www.chatting2all.com/redirect/'
+#CALLBACK_URL = 'http://www.chatting2all.com/redirect/'
+CALLBACK_URL = 'http://chat2all.lichenfan.com/qq_redirect/'
 
 
 api = APIClient(APP_ID, APP_KEY, redirect_uri=CALLBACK_URL)

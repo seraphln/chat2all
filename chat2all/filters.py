@@ -12,7 +12,7 @@ from utils.contrib import parse_params
 
 
 class BaseFilters(object):
-    ''' 过滤器的基类，其它过滤器都需要继承自本基类 '''
+    """ 过滤器的基类，其它过滤器都需要继承自本基类 """
 
     def __init__(self, *args, **kwargs):
         self.args = args
@@ -23,13 +23,13 @@ class BaseFilters(object):
 
 
 class PermissionFilters(BaseFilters):
-    ''' 权限相关的过滤器，如果用户没有访问某个app的权限，那么会返回一个403 '''
+    """ 权限相关的过滤器，如果用户没有访问某个app的权限，那么会返回一个403 """
     def process_request(self):
         return True
 
 
 class ParamsFilters(BaseFilters):
-    ''' 参数相关的过滤器，会检查参数是否合法并格式化参数 '''
+    """ 参数相关的过滤器，会检查参数是否合法并格式化参数 """
     def process_request(self, request):
         return True
 
@@ -45,5 +45,4 @@ def process_filters(request):
             return cur_result
         else:
             return None
-
 

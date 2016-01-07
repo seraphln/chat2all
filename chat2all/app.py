@@ -14,18 +14,14 @@ from flask import render_template
 from flask import Response
 from flask import redirect
 
-from const import admin_meta
 from lib.config import Config
 
 
-tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                        'templates')
+tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 
 
 app = Flask(__name__, template_folder=tmpl_dir)
-app.config['admin_meta'] = admin_meta
 
 app.secret_key = 'PS#yio`%_!((f_or(%)))s'
 
 config = Config()
-
