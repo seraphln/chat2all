@@ -40,5 +40,9 @@ class Config(object):
             print str(e)
             return None
 
+
+config = Config()
+
+
 if __name__ == '__main__':
     print Config().get('base_path')

@@ -20,10 +20,8 @@ from models import conn
 
 from utils import exceptions
 from utils.const import API_METHODS
-from utils.contrib import make_s_response
+from utils.contrib import make_success_response
 from utils.contrib import make_error_response
-
-from views.login import *
 
 
 @app.route('/api/<path:path>', methods=API_METHODS)
@@ -39,7 +37,7 @@ def backend(path):
         elif isinstance(result, flask.wrappers.Response):
             return result
         else:
-            return make_s_response(result)
+            return make_success_response(result)
     except Exception as e:
         return make_error_response(exceptions.ParamsErrorException())
 
