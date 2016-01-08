@@ -9,7 +9,9 @@ import md5
 import json
 import base64
 import random
+from urllib2 import urlparse
 from datetime import datetime
+from datetime import timedelta
 
 from utils.config import config
 
@@ -69,25 +71,27 @@ def build_sbuss(user, request):
 
 
 def verify_sbuss(sbuss, request):
+    """ verify the given sbuss """
     if not sbuss or not request:
         return None
-    user_info = bj_decode(sbuss)
+    user_info = decode_cookie(sbuss)
     if not user_info or not isinstance(user_info, dict):
         return None
-    if 'rand' not in user_info or \
-        'id' not in user_info or \
-        'sign' not in user_info or \
-        'level' not in user_info:
+    if any(['rand' not in user_info, 'id' not in user_info,
+            'sign' not in user_info, 'level' not in user_info]):
         return None
+
     user_ip = request.environ.get('REMOTE_ADDR') or request.remote_addr
     user_agent = request.get_header('User-Agent', '')
-    sign = build_sign(user_info['id'], str(user_info['level']), user_ip, user_agent, user_info['rand'])
+    sign = build_sign(user_info['id'], str(user_info['level']),
+                      user_ip, user_agent, user_info['rand'])
     if user_info['sign'] != sign:
         return None
     return user_info
 
 
 def generate_csrf_token(request, tm=None):
+    """ """
     if not hasattr(request, 'user'):
         request.user = {}
     uid = request.user.get('uid')
@@ -120,3 +124,11 @@ def csrf_check(request, level):
             return False
 
     return True
+
+
+def get_host(url):
+    try:
+        host = urlparse.urlparse(url).netloc.lower()
+    except:
+        host = ''
+    return host.strip()

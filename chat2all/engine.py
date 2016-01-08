@@ -12,49 +12,41 @@
 
 """
 
+import os
+import tornado.web
+import tornado.ioloop
 
-import flask
-
-from app import app
 from models import conn
+from utils.config import config
+from utils.logger import getLogger
 
-from utils import exceptions
-from utils.const import API_METHODS
-from utils.contrib import make_success_response
-from utils.contrib import make_error_response
-
-
-@app.route('/api/<path:path>', methods=API_METHODS)
-def backend(path):
-    '''
-        更改了之前的设计，现在由backend作为API请求的统一入口
-        所有的API请求处理都在该函数内进行
-    '''
-    try:
-        result = {}
-        if isinstance(result, Exception):
-            return make_error_response(result)
-        elif isinstance(result, flask.wrappers.Response):
-            return result
-        else:
-            return make_success_response(result)
-    except Exception as e:
-        return make_error_response(exceptions.ParamsErrorException())
+from views.IndexHandler import IndexHandler
+from views.LoginHandler import QQLoginHandler
 
 
-@app.route('/', methods=['GET'])
-def index():
-    site_info = SiteInfo.objects.filter().first()
-    cates = Category.objects.filter()
-    products = Product.objects.filter().limit(50)
-    for p in products:
-        p.discount = p.discount.replace('(', '').replace(')', '')
-    page_count = Product.objects.count()
-
-    return render_template('index.html', site_info=site_info,
-                           cates=cates, products=products,
-                           page_count=page_count)
+logger = getLogger("chat2all.engine")
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True, port=8355)
+def make_app():
+    """ make an app instance to start the server """
+    settings = {'static_path': os.path.join(os.path.dirname(__file__),
+                'templates')}
+
+    app = tornado.web.Application([(r"/qq_redirect/", QQLoginHandler,
+                                    r"/", IndexHandler)],
+                                    **settings)
+    return app
+
+
+if __name__ == "__main__":
+
+    # 1. generate app instance
+    app = make_app()
+
+    # 2. Make Tornado app listen on port 8080
+    serve_port = int(config.get('server_port'))
+    app.listen(serve_port)
+    print "Listening at %s" % serve_port
+
+    # 3. Start IOLoop
+    tornado.ioloop.IOLoop.instance().start()
