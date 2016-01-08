@@ -32,9 +32,9 @@ def make_app():
     settings = {'static_path': os.path.join(os.path.dirname(__file__),
                 'templates')}
 
-    app = tornado.web.Application([(r"/qq_redirect/", QQLoginHandler,
-                                    r"/", IndexHandler)],
-                                    **settings)
+    app = tornado.web.Application([(r"/qq_redirect/", QQLoginHandler),
+                                   (r"/", IndexHandler)],
+                                   **settings)
     return app
 
 

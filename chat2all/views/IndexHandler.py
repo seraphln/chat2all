@@ -3,6 +3,7 @@
 
 import tornado.web
 
+from utils.config import config
 from sso.qq.api import APIClient as QQAPIClient
 
 
