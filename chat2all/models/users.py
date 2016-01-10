@@ -86,7 +86,7 @@ class User(Document):
             else:
                 email = '@'.join([email_name, domain_part.lower()])
 
-        user = cls(username=username, email=email, date_joined=now)
+        user = cls(username=username, email=email, create_on=now)
         user.set_password(password)
         user.save()
         return user

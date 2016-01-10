@@ -24,7 +24,9 @@ from utils.config import config
 from utils.logger import getLogger
 
 from views.IndexHandler import IndexHandler
+from views.LoginHandler import LogoutHandler
 from views.LoginHandler import QQLoginHandler
+from views.LoginHandler import DirectLoginHandler
 
 
 logger = getLogger("chat2all.engine")
@@ -38,6 +40,8 @@ def make_app():
     cookie_secret = config.get('cookie_secret')
 
     app = tornado.web.Application([(r"/qq_redirect/", QQLoginHandler),
+                                   (r"/login/", DirectLoginHandler),
+                                   (r"/logout/", LogoutHandler),
                                    (r"/", IndexHandler)],
                                    cookie_secret=cookie_secret,
                                    **settings)

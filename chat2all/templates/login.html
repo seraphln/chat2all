@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head>
+</head>
+<body>
+  <form action="/login/", method='post'>
+    <p>用户名: <input type="text" id="username" name="username"></input></p>
+    <p>密  码: <input type="password" id="password" name="password"></input></p>
+      {{ msg }}
+    <p><input type="submit" value="登录"></input></p>
+  </form>
+
+  <a href="/logout/">退出登录</a>
+</body>
+</html>

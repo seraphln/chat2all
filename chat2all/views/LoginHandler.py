@@ -60,30 +60,33 @@ class DirectLoginHandler(tornado.web.RequestHandler):
     """ 直接登录 """
     def get(self):
         """ get直接返回登录页面 """
-        self.render("login.html")
+        self.render("login.html", msg="")
 
     def post(self):
         """ POST会检查给定的用户名和密码是否正确，如果不正确会返回错误 """
-        params = self.request.form.to_dict()
-        username = params.get('username')
-        password = params.get('password')
+        username = self.request.body_arguments.get('username')[0]
+        password = self.request.body_arguments.get('password')[0]
         msg = u'用户名或密码错误'
 
         try:
             user = User.objects.get(username=username)
             if user.check_password(password):
-                res = self.redirect('/login/')
-                res.set_cookie(config.get('login_cookie_key'),
-                               encode_cookie(username))
-                return res
+                self.set_secure_cookie(config.get('uname'), username)
+                self.write(json.dumps(make_success_response({'uname': username})))
             else:
-                return self.render('login.html', user=user, msg=msg)
+                self.render('login.html', user=user)
         except:
-            return self.render('login.html', msg=msg)
+            self.render('login.html')
 
 
 class LogoutHandler(tornado.web.RequestHandler):
     """ 退出登录 """
+    def get(self):
+        """ 处理退出登录相关的事宜 """
+        self.clear_cookie(config.get('uname'))
+        self.render('login.html', msg='')
+
     def post(self):
         """ 处理退出登录相关的事宜 """
-        pass
+        self.clear_cookie(config.get('uname'))
+        self.render('login.html', msg='')
