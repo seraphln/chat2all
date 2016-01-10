@@ -33,12 +33,13 @@ logger = getLogger("chat2all.engine")
 def make_app():
     """ make an app instance to start the server """
     settings = {'static_path': join(dirname(__file__), 'static'),
-                'template_path': join(dirname(__file__), 'templates'),
-                'gzip': True,
-                'debug': True}
+                'template_path': join(dirname(__file__), 'templates')}
+
+    cookie_secret = config.get('cookie_secret')
 
     app = tornado.web.Application([(r"/qq_redirect/", QQLoginHandler),
                                    (r"/", IndexHandler)],
+                                   cookie_secret=cookie_secret,
                                    **settings)
     return app
 
@@ -54,4 +55,4 @@ if __name__ == "__main__":
     print "Listening at %s" % serve_port
 
     # 3. Start IOLoop
-    tornado.ioloop.IOLoop.instance().start()
+    tornado.ioloop.IOLoop.current().start()

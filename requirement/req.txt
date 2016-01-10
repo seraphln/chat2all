@@ -1,3 +1,6 @@
 tornado
 ipdb
 mongoengine
+pyopenssl
+ndg-httpsclient
+pyasn1

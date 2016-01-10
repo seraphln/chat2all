@@ -21,10 +21,10 @@ class SDataDict(dict):
     a simple abstract data structure,
     for saving the api return values
     """
-    def __getattr__(self, key): 
-        try:
+    def __getattr__(self, key):
+        if key in self:
             return self[key]
-        except KeyError:
+        else:
             return None
 
     def __setattr__(self, key, value):
@@ -102,7 +102,7 @@ def request(method, url, authorization=None, request_source='qq', **kwargs):
         headers['Content-Type'] = 'multipart/form-data; boundary=%s' % boundary
 
     resp = requests.request(method, http_url, data=params,
-                            headers=headers, timeout=2)
+                            headers=headers, timeout=2, verify=False)
     body = resp.text
     if body.startswith('callback( '):
         body = body[10:-3]

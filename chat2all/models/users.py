@@ -33,20 +33,20 @@ class User(Document):
     }
 
     email = EmailField(unique=True)
-    sex = StringField()
-    desc = StringField()
-    avatar = StringField()
-    third_info = DictField()
+    gender = StringField(default='unknown')
+    desc = StringField(default='')
+    avatar = StringField(default='')
+    third_info = DictField(default={})
     nick_name = StringField(unique=True)
     username = StringField(unique=True)
-    password = StringField()
+    password = StringField(default='')
     create_on = DateTimeField()
     modify_on = DateTimeField()
     last_login = DateTimeField()
     is_superuser = BooleanField(default=False)
 
     def __unicode__(self):
-        return self.username
+        return self.username or ''
 
     def is_anonymous(self):
         return False

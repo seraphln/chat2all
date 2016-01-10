@@ -4,6 +4,7 @@
 
 import json
 import tornado.web
+from datetime import datetime
 
 from models.users import User
 from utils.config import config
@@ -15,31 +16,38 @@ from sso.qq.api import APIClient as QQAPIClient
 class QQLoginHandler(tornado.web.RequestHandler):
     """ QQ联合登录 """
     def get(self):
-        import ipdb;ipdb.set_trace()
         api = QQAPIClient(config.get('qq_apiid'),
                           config.get('qq_appkey'),
                           redirect_uri=config.get('qq_callback_url'))
-        code = self.request.body.get('code')
+        code = self.request.query_arguments.get('code')[0]
+        print code
         access_token = api.request_access_token(code)
         api.set_access_token(access_token['access_token'],
                              access_token['expires_in'])
         user_info = api.get.user__get_user_info()
         openid = api.get_openid()
 
+        now = datetime.utcnow()
         user = User.objects.filter(third_info__third_type='qq',
                                  third_info__openid=openid).first()
         if not user:
-            user = User()
+            user = User(create_on=now, modify_on=now, last_login=now)
+        else:
+            user.modify_on = now
+            user.last_login = now
 
+        user.username = openid
         user.nick_name = user_info.get('nickname', '')
-        user.gender = user_info.get('gender', '')
+        user.email = '%s@qq.com' % openid
+        gender = 'm' if user_info.get('gender') == u'男' else 'f'
+        user.gender = gender
         user.avatar = user_info.get('figureurl_qq_2', '')
-        user.third_info = {'third_type': 'qq', 'info': user_info, 'openid': openid}
+        user.third_info = {'third_type': 'qq', 'info': dict(user_info), 'openid': openid}
         user.save()
-        set_login_cookie(self.request, user)
-        # set user cookie
 
-        self.write(json.dumps(make_response(user)))
+        # set user cookie
+        self.set_secure_cookie(config.get('uname'), openid)
+        self.write(json.dumps(make_success_response(user_info)))
 
 
 class WeiboLoginHandler(tornado.web.RequestHandler):
