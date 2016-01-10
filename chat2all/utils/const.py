@@ -31,3 +31,6 @@ def guess_content_type(ext):
 
     return CONTENT_TYPES.get(ext, 'application/octet-stream')
 
+
+WEIBO_DOMAIN = 'api.uniweibo.com'
+WEIBO_VERSION = '2'

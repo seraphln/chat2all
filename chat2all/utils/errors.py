@@ -23,3 +23,15 @@ class QQAPIError(SSOBaseException):
 
     def __str__(self):
         return 'QQAPIError: %s: %s' % (self.error_code, self.error)
+
+
+class WeiboAPIError(SSOBaseException):
+    """ raise APIError if got failed json message """
+
+    def __init__(self, error_code, error):
+        self.error_code = error_code
+        self.error = error
+        super(WeiboAPIError, self).__init__(self, error)
+
+    def __str__(self):
+        return 'WeiboAPIError: %s: %s' % (self.error_code, self.error)
